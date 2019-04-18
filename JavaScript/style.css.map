@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,EAAG;EACF,UAAU,EAAE,IAAI;;AAGjB,UAAW;EACV,KAAK,EAAE,GAAG;EACV,UAAU,EAAE,MAAM;EAClB,MAAM,EAAE,SAAS",
+"sources": ["../../../%E5%8B%89%E5%BC%B7%E7%94%A8/WG/JavaScript/style.scss"],
+"names": [],
+"file": "style.css"
+}
