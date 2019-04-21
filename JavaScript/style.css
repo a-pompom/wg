@@ -1,9 +1,101 @@
+/*------------------------------*/
+/*BASE						  */
+/*------------------------------*/
+html {
+  font-size: 75%; }
+
+body {
+  font-family: 'Noto Sans Japanese', 'sans-serif';
+  color: #767676;
+  background-color: #e5e5e5; }
+
+a {
+  color: #767676;
+  text-decoration: none; }
+
 ul {
   list-style: none; }
+
+button, input[type=submit] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; }
+
+.wrapper {
+  display: flex; }
+
+/*------------------------------*/
+/*BUTTON						*/
+/*------------------------------*/
+.button--save, .button--del {
+  text-decoration: none;
+  text-align: center;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: #fff;
+  border-radius: 5px;
+  display: inline-block;
+  margin-right: 20px;
+  margin-top: 5px;
+  cursor: pointer; }
+  .button--save:hover, .button--del:hover {
+    opacity: 0.8; }
+
+.button--save {
+  width: 100px;
+  height: 30px;
+  margin: 30px auto 30px 20px;
+  font-size: 1.5rem;
+  background-color: #b2f0ff; }
+
+.button--del {
+  width: 100px;
+  height: 60px;
+  background-color: #f44242;
+  line-height: 60px;
+  margin: 40px 10px 30px 10px; }
+
+/*------------------------------*/
+/*FIELD                         */
+/*------------------------------*/
+.field--todo {
+  width: 150px;
+  height: 30px;
+  border-radius: 5px; }
+
+.field--todo {
+  margin: 50px auto; }
 
 .container {
   width: 80%;
   text-align: center;
-  margin: 20px auto; }
+  margin: 30px auto; }
+
+.todo-list {
+  width: 80%; }
+  .todo-list__row {
+    display: flex;
+    justify-content: center; }
+  .todo-list__index {
+    width: 5%;
+    height: 60px;
+    font-size: 20px;
+    line-height: 60px;
+    background-color: white;
+    margin: 40px 10px 30px 10px;
+    border-radius: 50%;
+    background-color: black;
+    color: white; }
+  .todo-list--sub {
+    width: 50%; }
+  .todo-list__item {
+    width: 60%;
+    height: 60px;
+    font-size: 20px;
+    line-height: 60px;
+    background-color: white;
+    margin: 10px auto; }
+  .todo-list__pin {
+    font-size: 24px; }
 
 /*# sourceMappingURL=style.css.map */

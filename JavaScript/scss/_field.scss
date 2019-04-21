@@ -1,0 +1,15 @@
+/*------------------------------*/
+/*FIELD                         */
+/*------------------------------*/
+
+
+%field {
+    width: 150px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.field--todo {
+    @extend %field;
+    margin: 50px auto;
+}

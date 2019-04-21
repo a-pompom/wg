@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+@import "./base";
+@import "./mixin";
+@import "./button";
+@import "./field";
+
+.container {
+	width: 80%;
+	text-align: center;
+	margin: 30px auto;
+}
+
+.todo-list {
+	width: 80%;
+	
+	&__row {
+		@include flex-center;
+	}
+	
+	&__index {
+		width: 5%;
+		height: 60px;
+		font-size: 20px;
+		line-height: 60px;
+		background-color: white;
+		margin: 40px 10px 30px 10px;
+		border-radius: 50%;
+		background-color: black;
+		color: white;
+	}
+	
+	&--sub {
+		width: 50%;
+	}
+	
+	&__item {
+		width: 60%;
+		height: 60px;
+		font-size: 20px;
+		line-height: 60px;
+		background-color: white;
+		margin: 10px auto;
+	}
+	
+	&__pin {
+		font-size: 24px;
+	}
+}
