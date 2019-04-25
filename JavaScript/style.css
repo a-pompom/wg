@@ -53,7 +53,7 @@ button, input[type=submit] {
   height: 60px;
   background-color: #f44242;
   line-height: 60px;
-  margin: 40px 10px 30px 10px; }
+  margin: 35px 10px 30px 10px; }
 
 /*------------------------------*/
 /*FIELD                         */
@@ -94,7 +94,8 @@ button, input[type=submit] {
     font-size: 20px;
     line-height: 60px;
     background-color: white;
-    margin: 10px auto; }
+    margin: 10px auto;
+    border-radius: 10px; }
   .todo-list__pin {
     font-size: 24px; }
 
