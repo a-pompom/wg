@@ -1,12 +1,12 @@
 var todo = (function(){
 	var todoList = [];
 	var todoListHTML = '';
+	var indexList = {};
 	
 	function draw(){
 		todoListHTML = '';
+		indexList = {};
 		document.getElementById('todoList').innerHTML = '';
-		console.log(todoList);
-		console.log(todoListHTML);
 		for (var i=0; i < todoList.length; i++){
 			var todoRow = document.createElement('ul');
 			todoRow.setAttribute('class', 'todo-list__row');
@@ -41,18 +41,31 @@ var todo = (function(){
 			
 			todoRow.appendChild(delButtonLi);
 			document.getElementById('todoList').innerHTML += todoRow.innerHTML;
+			indexList[i] = i;
+			console.log(indexList);
+				
 		}
-		document.getElementById('delButton-0').addEventListener('click', function(){ del(0)});
+		Object.entries(indexList).forEach(([key, value]) => { 
+    		console.log({key, value});
+			document.getElementById('delButton-' + value).onclick = (function(a) {
+				return function(){ del(a);};
+			})(value);	
+		});
+		
+		//var x = document.getElementById('delButton-' + indexList[i]).getAttribute('id');
+			
+				
 	}
+	
+	
 	
 	function add(item) {
 		todoList.push(item);
 	}
 	
 	function del(delIndex) {
-		
 		console.log('run');
-		todoList.filter(index => delIndex !== index);
+		todoList = todoList.filter((element, index) => index !== delIndex);
 		draw();
 	}
 	
