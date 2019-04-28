@@ -15,26 +15,15 @@
 	width: 80%;
 	
 	&__row {
+		margin: 10px 10% 10px 0;
 		@include flex-center;
 	}
 	
-	&__index {
-		width: 5%;
-		height: 60px;
-		font-size: 20px;
-		line-height: 60px;
-		background-color: white;
-		margin: 40px 10px 30px 10px;
-		border-radius: 50%;
-		background-color: black;
-		color: white;
-	}
-	
-	&--sub {
+	&--item {
 		width: 50%;
 	}
 	
-	&__item {
+	&__task {
 		width: 60%;
 		height: 60px;
 		font-size: 20px;
