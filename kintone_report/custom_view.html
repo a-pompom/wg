@@ -1,0 +1,210 @@
+<div id="appReport">
+	<div class="report">
+		<div class="report-area">
+			<div class="area--title">
+				 <input 
+					type="text" 
+					v-model="report.title"
+					placeholder="タイトル" 
+					class="field--title report__title">
+			</div>
+
+			<br>
+			<div class="report-area__project">
+				<div class="area--input">
+					<input 
+						type="text"
+						v-model="report.projectList[projectIndex].projectName"
+						placeholder="プロジェクト名" 
+						class="field--item report__input">
+				</div>
+				<div class="area--input">
+					<input 
+						type="text"
+						v-model="report.projectList[projectIndex].taskName"
+						placeholder="作業名"
+						class="field--item report__input">
+				</div>
+
+				<div class="area__wrapper">
+					<h4>予定期間:</h4>
+					<input 
+						type="date"
+						v-model="report.projectList[projectIndex].startDate"
+						placeholder="予定期間from"
+						class="field--item report__from-to">
+					〜
+					<input 
+						type="date"
+						v-model="report.projectList[projectIndex].endDate"
+						placeholder="予定期間to"
+						class="field--item report__from-to">
+				</div>
+
+				<div class="area__wrapper">
+					<h4>進捗工数:</h4>
+					<input 
+						type="number"
+						v-model="report.projectList[projectIndex].planManHour"
+						placeholder="予定工数"
+						class="field--item report__from-to">
+
+					&nbsp;/&nbsp;
+
+					<input 
+						type="number"
+						v-model="report.projectList[projectIndex].achievementManHour"
+						placeholder="実績工数"
+						class="field--item report__from-to">
+				</div>
+
+				<div class="area__wrapper">
+					<h3>実績:</h3>
+					<ul>
+						<li v-for="achievement in report.projectList[projectIndex].achievementList">
+							<input 
+								type="text"
+								v-model="achievement.achievement"
+								placeholder="実績">
+							<select v-model="achievement.status">
+								<option>未着手</option>
+								<option>進行中</option>
+								<option>完了</option>
+							</select>
+						</li>
+					</ul>
+
+					<button
+						v-on:click="addAchievementRow" 
+						class="button--mod report-button--row-add">行追加</button>
+				</div>
+
+				<div class="area__wrapper">
+					<h4>進捗:</h4>
+					<select v-model="report.projectList[projectIndex].progress">
+						<option>遅れなし</option>
+						<option>遅れ</option>
+						<option>前倒し</option>
+					</select>
+				</div>
+
+				<div class="area__wrapper">
+					<h4>課題:</h4>
+					<textarea 
+						v-model="report.projectList[projectIndex].problem" 
+						class="report-field--textarea"
+						></textarea>
+				</div>
+
+			</div>
+			<div class="report-area__project-list">
+				<button
+					v-on:click="addProject" 
+					class="button--mod report-button--proj-add">プロジェクト追加</button>
+
+				<ul class="project-list">
+					<li 
+						v-for="(index, project) in report.projectList"
+						v-bind:key="project.id"
+						class="project-list__item">
+						<h3>
+							{{ project.projectName }}:{{ project.taskName }} 
+							<button
+								v-on:click="editProject(index)"
+								class="button--mod report-button--proj">編集</button>
+
+							<button
+								v-on:click="copyProject(index)"
+								class="button--copy report-button--proj">複製</button>
+
+							<button
+								v-show="index !== projectIndex"
+								v-on:click="delProject(index)"
+								class="button--del report-button--proj">削除</button>
+						</h3>
+					</li>
+				</ul>
+			</div>
+
+			<div class="report-area__sub-input">
+				<h4>次回の業務内容</h4>
+				<textarea v-model="report.futureTask" class="report-field--textarea">	
+				</textarea>
+
+				<h4>所感</h4>
+				<textarea v-model="report.comment" class="report-field--textarea">
+				</textarea>
+			</div>
+			<div class="report-area__submit">
+				<button
+					v-on:click="addReport" 
+					class="button--add report-button--submit">投稿する</button>
+			</div>
+
+		</div>
+
+		<div class="report-preview">
+			<h2>{{ report.title }}</h2>
+			<h3>本日の業務内容</h3>
+			<ul>
+				<li v-for="project in report.projectList">
+					<h4>■ {{ project.projectName }}</h4>
+					<h4>□ {{ project.taskName }}</h4>
+					<h4>予定期間: {{ project.startDate }} ~ {{ project.endDate }}</h4>
+					<h4>予定工数: {{ project.planManHour }}h</h4>
+					<h4>実績工数: {{ project.achievementManHour }}h / {{ project.planManHour }}h</h4>
+					<h4>実績:</h4>
+					<ul>
+						<li v-for="achievement in project.achievementList">
+							<h5>・{{ achievement.achievement }}({{ achievement.status }})</h5>
+						</li>
+					</ul>
+					<h4>進捗: {{ project.progress }}</h4>
+					<h4>課題:</h4>
+					<pre>{{ project.problem }}</pre>
+				</li>
+			</ul>
+
+			<h4>次回の業務内容</h4>
+			<pre>{{ report.futureTask }}</pre>
+			<h4>所感</h4>
+			<pre>{{ report.comment }}</pre>
+		</div>
+	</div>
+	
+	<div>
+		<ul>
+			<li v-for="report in reportList">
+				<h2>{{ report['title']['value'] }}</h2>
+				<h3>本日の業務内容</h3>
+				<ul>
+					<li v-for="i in projectCount">
+						<h4>■ {{ report['projectName' + (i + 1)]['value'] }}</h4>
+						<h4>□ {{ project.taskName.value }}</h4>
+						<h4>予定期間: {{ project.startDate.value }} ~ {{ project.endDate.value }}</h4>
+						<h4>予定工数: {{ project.planManHour.value }}h</h4>
+						<h4>実績工数: {{ project.achievementManHour.value }}h / 
+									{{ project.planManHour.value }}h</h4>
+						<h4>実績:</h4>
+						<ul>
+							<li v-for="achievement in project.achievementList">
+								<h5>・{{ achievement.achievement.value }}({{ achievement.status.value }})</h5>
+							</li>
+						</ul>
+						<h4>進捗: {{ project.progress.value }}</h4>
+						<h4>課題:</h4>
+						<pre>{{ project.problem.value }}</pre>
+					</li>
+				</ul>
+
+				<h4>次回の業務内容</h4>
+				<pre>{{ report.futureTask.value }}</pre>
+				<h4>所感</h4>
+				<pre>{{ report.comment.value }}</pre>
+				<hr>
+			</li>
+			
+		</ul>
+	</div>
+</div>
+	

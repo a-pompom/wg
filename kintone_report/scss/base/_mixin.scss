@@ -1,0 +1,28 @@
+//ミックスイン要素はCSSへ出力されないので行コメントを利用
+
+
+//flex-box
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+}
+
+@mixin flex-right {
+	display: flex;
+	justify-content: flex-end;
+}
+
+@mixin flex-left {
+	display: flex;
+	justify-content: flex-start;
+}
+
+@mixin flex-between {
+	display: flex;
+	justify-content: space-between;
+}
+
+@mixin flex-table {
+	display: flex;
+	flex-wrap: wrap;
+}

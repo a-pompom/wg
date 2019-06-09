@@ -1,0 +1,17 @@
+/***************************/
+/* BUTTON                  */
+/***************************/
+%field {
+	display: inline-block;
+	border-radius: 5px;
+}
+
+.field--title {
+	@extend %field;
+	font-size: 1.4rem;
+}
+
+.field--item {
+	@extend %field;
+	font-size: 1.2rem;
+}

@@ -1,0 +1,98 @@
+.report {
+	@include flex-center;
+	
+	&-area {
+		width: 50%;
+		background-color: #eee;
+		
+		.area--title {
+			width: 30%;
+			height: 30px;
+			margin: 5px auto;
+		}
+		
+		&__project {
+			width: 80%;
+			height: 700px;
+			border: 1px solid #000;
+			border-radius: 10px;
+			margin: 10px auto;
+			
+			.area--input {
+				width: 30%;
+				height: 25px;
+				margin: 20px auto;
+			}
+
+			.area__wrapper {
+				width: 70%;
+				margin: 15px auto;
+			}
+		}
+		
+		&__project-list {
+			width: 80%;
+			margin: 10px auto;
+		}
+		
+		
+		&__sub-input {
+			width: 80%;
+			margin: 10px auto;
+			
+		}
+		
+		&__submit {
+			width: 80%;
+			margin: 10px auto;
+		}
+	}
+	
+	
+	&-preview {
+		width: 50%;
+		background-color: #eee;
+	}
+	
+	&__title {
+		text-align: center;
+	}
+	
+	&__input {
+		width: 100%;
+		height: 25px;
+		text-align: center;
+	}
+	
+	&__from-to {
+		width: 30%;
+		height: 25px;
+		text-align: center;
+	}
+	
+}
+
+.report-button {
+	
+	&--row-add{
+		width: 90px;
+		height: 30px;
+	}
+	
+	&--proj {
+		width: 60px;
+		height: 20px;
+		margin-left: 10px;
+	}
+}
+
+.report-field {
+	&--textarea {
+		display: inline-block;
+		border: 1px solid #000;
+		border-radius: 3%;
+		width: 80%;
+		height: 50px;
+		font-size: 1.3rem;
+	}
+}

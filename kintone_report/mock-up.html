@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="style.css">
+	<title>日報ジェネレータ</title>
+</head>
+<body>
+	<div id="appReport" class="report">
+		<div class="report-area">
+			<div class="area--title">
+				 <input type="text" placeholder="タイトル" class="field--title report__title">
+			</div>
+			
+			<br>
+			<div class="report-area__project">
+				<div class="area--input">
+					<input type="text" placeholder="プロジェクト名" class="field--item report__input">
+				</div>
+				<div class="area--input">
+					<input type="text" placeholder="作業名" class="field--item report__input">
+				</div>
+				
+				<div class="area__wrapper">
+					<h4>予定期間:</h4>
+					<input type="date" placeholder="予定期間from" class="field--item report__from-to">
+					〜
+					<input type="date" placeholder="予定期間to" class="field--item report__from-to">
+				</div>
+				
+				<div class="area__wrapper">
+					<h4>進捗工数:</h4>
+					<input type="number" placeholder="予定工数" class="field--item report__from-to">
+					&nbsp;/&nbsp;
+					<input type="number" placeholder="実績工数" class="field--item report__from-to">
+				</div>
+				
+				<div class="area__wrapper">
+					<h3>実績:</h3>
+					<ul>
+						<li>
+							<input type="text" placeholder="実績">
+							<select name="status">
+								<option value="0">未着手</option>
+								<option value="1">進行中</option>
+								<option value="2">完了</option>
+							</select>
+						</li>
+					</ul>
+					
+					<button class="button--mod report-button--row-add">行追加</button>
+				</div>
+				
+				<div class="area__wrapper">
+					<h4>進捗:</h4>
+					<select name="status">
+						<option value="0">遅れなし</option>
+						<option value="1">遅れ</option>
+						<option value="2">前倒し</option>
+					</select>
+				</div>
+				
+				<div class="area__wrapper">
+					<h4>課題:</h4>
+					<textarea class="report-field--textarea"></textarea>
+				</div>
+				
+			</div>
+			<div class="report-area__project-list">
+				<button class="button--mod report-button--proj-add">プロジェクト追加</button>
+			
+				<ul class="project-list">
+					<li class="project-list__item">
+						<h3>
+							プロジェクト1:作業1 
+							<button class="button--mod report-button--proj">編集</button>
+							<button class="button--copy report-button--proj">複製</button>
+							<button class="button--del report-button--proj">削除</button>
+						</h3>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="report-area__sub-input">
+				<h4>次回の業務内容</h4>
+				<textarea class="report-field--textarea">	
+				</textarea>
+
+				<h4>所感</h4>
+				<textarea class="report-field--textarea">
+				</textarea>
+			</div>
+			<div class="report-area__submit">
+				<button class="button--add report-button--submit">投稿する</button>
+			</div>
+			
+		</div>
+	
+		<div class="report-preview">
+			<h2>タイトル</h2>
+			<h3>本日の業務内容</h3>
+			<ul>
+				<li>
+					<h4>■プロジェクト名</h4>
+					<h4>□作業名</h4>
+					<h4>予定期間: 2019/06/03 ~ 2019/06/07</h4>
+					<h4>予定工数: 40h</h4>
+					<h4>実績工数: 16h / 40h</h4>
+					<h4>実績:</h4>
+					<h5>・実績1(完了)</h5>
+					<h5>・実績2(進行中)</h5>
+					<h5>・実績3(未着手)</h5>
+					<h4>進捗</h4>
+					<h4>課題</h4>
+				</li>
+				
+				<li>
+					<h4>■プロジェクト名</h4>
+					<h4>□作業名</h4>
+					<h4>予定期間: 2019/06/03 ~ 2019/06/07</h4>
+					<h4>予定工数: 40h</h4>
+					<h4>実績工数: 16h / 40h</h4>
+					<h4>実績:</h4>
+					<h5>・実績1(完了)</h5>
+					<h5>・実績2(進行中)</h5>
+					<h5>・実績3(未着手)</h5>
+					<h4>進捗</h4>
+					<h4>課題</h4>
+				</li>
+			</ul>
+			
+			
+			<h4>次回の業務内容</h4>
+			<p>text</p>
+			<h4>所感</h4>
+			<p>text</p>
+		</div>
+	</div>
+	
+</body>
+</html>
