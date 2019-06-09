@@ -1,0 +1,11 @@
+/***************************/
+/* BUTTON                  */
+/***************************/
+%field {
+	display: block;
+	border-radius: 5px;
+}
+
+.field--add {
+	@extend %field;
+}

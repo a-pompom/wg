@@ -1,0 +1,64 @@
+//画面のレイアウト部分のスタイル
+.todo {
+	width: 80%;
+	height: 100%;
+	
+	margin: 10px auto;
+	
+	//レイアウト部分のスタイル
+	
+	// 入力エリア 要素は縦並びとなるようwidth調整
+	&__add-area {
+		width: 20%;
+		display: block;
+		margin: 10px auto;
+	}
+	
+	// ヘッダ 入力エリアとタスクの間に描画される
+	&__heading {
+		text-align: center;
+		border-bottom: 2px solid #e5e5e5;
+	}
+	
+	//TODOリスト 要素とボタンを横並びで配置し、位置は入力エリアをセンターとして中央に寄せる
+	&__list {
+		width: 100%;
+		&__item {
+			width: 80%;
+			height: 30px;
+			@include flex-center;
+			margin: 50px 30% 20px 10%;
+		}
+		
+	}
+	
+	
+	//個別要素のスタイリング
+	
+	&-add--field {
+		width: 100%;
+		height: 40%;
+	}
+	
+	&-add--button {
+		width: 100%;
+		height: 10%;
+		margin: 15px 0;
+	}
+	
+	//テキストのスタイル 今回は1行テキストを想定しているのでチャットコメント風のスタイルを設定
+	&-item--text {
+		font-size: 1.5rem;
+		width: 40%;
+		height: 85%;
+		border-radius: 10px;
+		text-align: center;
+		background-color: #f2f2f2;
+	}
+	
+	&-item--button {
+		width: 15%;
+		heigfht: 50%;
+		margin-left: 20px;
+	}
+}

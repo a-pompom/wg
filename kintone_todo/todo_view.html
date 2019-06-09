@@ -1,0 +1,32 @@
+<div id="appTodo" class="todo">
+	<div class="todo__add-area">
+		<input 
+			type="text" 
+			v-model="input" 
+			placeholder="やること"
+			class="field--add todo-add--field" >
+		<button 
+			type="button"
+			v-on:click="addTask"
+			class="button--add todo-add--button"
+			>追加</button>
+	</div>
+
+	<h2 class="todo__heading">やることリスト</h2>
+
+	<ul id="todoList" class="todo__list">
+		<li 
+			v-for="(index, task) in todoList" 
+			v-bind:key="task.recordIndex.value"
+			class="todo__list__item"
+			>
+			<p class="todo-item--text">
+				{{ task.task.value }}
+			</p>
+			<button
+				v-on:click="delTask(task.recordIndex.value)"
+				class="button--del todo-item--button"
+				>Delete</button>
+		</li>
+	</ul>
+</div>
