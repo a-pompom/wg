@@ -8,10 +8,10 @@ import * as kintoneUtil from './kintoneUtil.js';
 	
 	//画面表示時に呼ばれる処理
 	kintone.events.on('app.record.index.show', (event) =>{
-		
+		const PROJECT_APP_ID = 9;
 		//kintoneから取得するレコード一覧
 		let records = event.records
-		
+		console.log(records);
 		//Vueインスタンス
 		let appVue = new Vue({
 			el: "#appReport",	
@@ -131,12 +131,24 @@ import * as kintoneUtil from './kintoneUtil.js';
 				 * レコード一覧へ日報を追加する
 				 */
 				addReport(){
-					kintoneUtil.sendPost({
+					
+					let reportId = kintoneUtil.sendPost(kintone.app.getId(), {
 						title: {value: this.report.title},
-						projectName1: {value: this.report.projectList[0].projectName},
 						futureTask: {value: this.report.futureTask},
 						comment: {value: this.report.comment}
 					});
+					console.log('post returnvalue is ' + reportId);
+					kintoneUtil.sendPost(PROJECT_APP_ID, {
+						projectName: {value: this.report.projectList[0].projectName},
+						taskName: {value: this.report.projectList[0].taskName},
+						startDate: {value: this.report.projectList[0].startDate},
+						endDate: {value: this.report.projectList[0].endDate},
+						progress: {value: this.report.projectList[0].progress},
+						problem: {value: this.report.projectList[0].problem},
+						reportId: {value: reportId}
+					});
+					
+					location.reload();
 				}
 			}
 			
