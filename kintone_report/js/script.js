@@ -1,5 +1,7 @@
-import * as kintoneUtil from './kintoneUtil.js';
-
+import * as restUtil from './kintoneRestUtil.js';
+import * as recordUtil from "./kintoneRecordUtil.js";
+import * as appConst from "./appConst.js";
+import * as vueInstanceManipulator from "./vueInstanceManipulator.js";
 /**
  *日報の作成処理を行う
 */
@@ -7,152 +9,91 @@ import * as kintoneUtil from './kintoneUtil.js';
 	"use strict";
 	
 	//画面表示時に呼ばれる処理
-	kintone.events.on('app.record.index.show', (event) =>{
-		const PROJECT_APP_ID = 9;
-		//kintoneから取得するレコード一覧
+	kintone.events.on('app.record.index.show', event =>{
+		
+		// kintoneから取得するレコード一覧
 		let records = event.records
-		console.log(records);
-		//Vueインスタンス
-		let appVue = new Vue({
-			el: "#appReport",	
+		
+		// 日報が空の場合はプロジェクトを取得しない
+		if(records.length === 0) {
+			vueInstanceManipulator.setVueInstance(records);
+			return;
+		}
+		
+		// プロジェクト一覧から現在ページの日報と対応したものをGETリクエストで取得
+		let queryReportIdList = getReportIdFilterQuery(records);
+		
+		let paramBody = {
+			"app": appConst.PROJECT_APP_ID,
+			"__REQUEST_TOKEN__": kintone.getRequestToken(),
+			"query": queryReportIdList 
+		}
+		
+		// プロジェクト一覧を取得する処理
+		// GETリクエストは非同期で発行されるので、プロジェクト一覧を取得してから描画を行うために
+		// Promiseオブジェクトを利用 resolveへ結果セットのプロジェクト一覧を格納し、
+		// 既存のkintoneのrecord一覧へプロジェクト要素を追加
+		let getProjectPromise = new kintone.Promise((resolve, reject) => {
+			restUtil.sendGetByQuery(paramBody, resolve);
+		});
+		
+		// resolveでは以下形式でプロジェクトを保持
+		/*
+		resolve: {
+			records: [
+				{
+					projectName: {value: "hogehoge"}
+				},
+				...
+			]
+		}
+		*/
+		getProjectPromise.then((resolve)=> {
 			
-			data() {
-				return {
-					projectIndex: 0, // 参照中のプロジェクトのインデックス
-					reportList: records, // kintoneのレコード
-					projectCount: 1,
-					report: {
-						title: "",
-						projectList: //プロジェクトの情報をJSONのリストで管理 
-							[
-								{
-									id: 1,
-									projectName: "",
-									taskName: "",
-									startDate: "",
-									endDate: "",
-									planManHour: "",
-									achievementManHour: "",
-									achievementList:[
-										{achievement: "", status: ""}
-										],
-									progress: "",
-									problecm: ""
-								}
-						],
-						futureTask: "",
-						comment: ""
+			// kintoneの日報レコードへprojectListプロパティとしてレスポンスのJSONを設定
+			// 日報とプロジェクトの対応関係は日報IDをキーに判定
+			for (let report of records) {
+				for (let project of resolve.records) {
+					
+					// 日報と紐づくプロジェクトをprojectListプロパティへ追加
+					if(report.reportId.value === project.reportId.value) {
+						if ("projectList" in report) {
+							report['projectList'].push(project);
+							continue;
+						} 
+						
+						report['projectList'] = [];
+						report['projectList'].push(project);
+						
 					}
-					
-				};
-			},
-			
-			methods: {
-				/**
-				 * 実績リストへ行追加を行う
-				 */
-				addAchievementRow(){
-					//現在参照中のプロジェクトへ空の実績オブジェクトを挿入
-					this.report.
-						projectList[this.projectIndex].
-							achievementList.push({achievement: "", status: ""});
-				},
-				
-				/**
-				 * プロジェクトを追加する
-				 */
-				addProject(){
-					//追加要素のIDを現在要素の最大値+1とする
-					let maxId = this.report.projectList.reduce((acc, cur)=>{
-						return acc > cur.id ? acc : cur.id;
-					});
-					
-					//空のプロジェクトオブジェクトを生成
-					this.report.projectList.push(
-						{
-							id: maxId + 1,
-							projectName: "",
-							taskName: "",
-							startDate: "",
-							endDate: "",
-							planManHour: "",
-							achievementManHour: "",
-							achievementList:[
-								{achievement: "", status: ""}
-								],
-							progress: "",
-							problecm: ""
-						}
-					);
-					
-					//追加したプロジェクトを参照
-					this.projectIndex = this.report.projectList.length + 1;
-				},
-				
-				/**
-				 * プロジェクトを編集する Indexを切り替えることで参照中のプロジェクトを変更する
-				 * @param {Number} projectIndex 参照対象のプロジェクトのインデックス
-				 */
-				editProject(projectIndex) {
-					this.projectIndex = projectIndex;
-				},
-				
-				/**
-				 * プロジェクトを複製する 同じプロジェクトで別作業をやることは頻繁に起こり得るので
-				 * 複製メソッドを実装した
-				 * @param   {Number} projectIndex 参照中のプロジェクトのインデックス
-				 */
-				copyProject(projectIndex) {
-					// 複製したプロジェクトに振るIDを設定
-					let maxId = this.report.projectList.reduce((acc, cur)=>{
-						return acc > cur.id ? acc : cur.id;
-					});
-					
-					// 複製対象のプロジェクトをディープコピーしてIDを採番することで複製
-					let copyProject = JSON.parse(JSON.stringify(this.report.projectList[projectIndex]));
-					copyProject.id = maxId + 1;
-					this.report.projectList.push(
-						copyProject
-					);
-					
-					//複製結果を参照対象とする
-					this.projectIndex = this.report.projectList.length + 1;
-				},
-				
-				/**
-				 * プロジェクトを削除する
-				 * @param {Number} projectIndex 削除対象のプロジェクトのインデックス
-				 */
-				delProject(projectIndex) {
-					this.report.projectList.splice(projectIndex, 1);
-				},
-				
-				/**
-				 * レコード一覧へ日報を追加する
-				 */
-				addReport(){
-					
-					let reportId = kintoneUtil.sendPost(kintone.app.getId(), {
-						title: {value: this.report.title},
-						futureTask: {value: this.report.futureTask},
-						comment: {value: this.report.comment}
-					});
-					console.log('post returnvalue is ' + reportId);
-					kintoneUtil.sendPost(PROJECT_APP_ID, {
-						projectName: {value: this.report.projectList[0].projectName},
-						taskName: {value: this.report.projectList[0].taskName},
-						startDate: {value: this.report.projectList[0].startDate},
-						endDate: {value: this.report.projectList[0].endDate},
-						progress: {value: this.report.projectList[0].progress},
-						problem: {value: this.report.projectList[0].problem},
-						reportId: {value: reportId}
-					});
-					
-					location.reload();
 				}
 			}
 			
-		}); // Vueインスタンス作成ここまで
+			// 描画要素が完成した段階でVueの描画処理を呼び出す
+			vueInstanceManipulator.setVueInstance(records);
+		});
+		
+		
 	}); //kintoneイベント処理ここまで
+	
+	/**
+	 * 日報IDでプロジェクト一覧をフィルタするクエリを取得する
+	 * @param   {[Object]} records kintoneの日報レコード一覧 日報IDで対応するプロジェクトを取得
+	 * @returns {String} reportId in (1,2,3...)のような形でプロジェクトを絞り込むクエリ文字列
+	 */
+	function getReportIdFilterQuery(records) {
+		let queryReportIdList = "reportId in (";
+		
+		// カンマ区切りで日報IDを連結した文字列を生成
+		for (let report of records) {
+			queryReportIdList += report.reportId.value;
+			queryReportIdList += ",";
+		}
+		// 末尾のカンマを削除し、閉じ括弧とすることでreportId in(1,2,3,4)のような形のクエリ文字列とする
+		queryReportIdList = queryReportIdList.slice(0, -1);
+		queryReportIdList += ")";
+		
+		return queryReportIdList;
+	}
 	
 })();

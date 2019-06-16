@@ -2,7 +2,7 @@
 	@include flex-center;
 	
 	&-area {
-		width: 50%;
+		width: 65%;
 		background-color: #eee;
 		
 		.area--title {
@@ -50,7 +50,7 @@
 	
 	
 	&-preview {
-		width: 50%;
+		width: 35%;
 		background-color: #eee;
 	}
 	
@@ -80,8 +80,9 @@
 	}
 	
 	&--proj {
-		width: 60px;
-		height: 20px;
+		width: 90px;
+		height: 25px;
+		font-size: 1.2rem;
 		margin-left: 10px;
 	}
 }
